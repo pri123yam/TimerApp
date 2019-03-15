@@ -4,8 +4,8 @@ class Timer extends React.Component{
     {
         super(props);
         this.state={
-            minutes:0,
-            seconds:0
+            minutes:'00',
+            seconds:'00'
         };
     }
 
@@ -25,15 +25,34 @@ class Timer extends React.Component{
     }
     timers=()=>
     {
-        if(this.state.seconds===59){
-        this.state.minutes=this.state.minutes+1;
-        this.state.seconds=0;}
-        this.setState((prevState)=>({seconds: prevState.seconds +1}));
+        var min,sec;
+        min=parseInt(this.state.minutes,10);
+        sec=parseInt(this.state.seconds,10);
+        if(sec===59){
+            min=min+1;
+            sec=0;}
+        else
+        sec+=1;
+        min=this.lzero(min);
+        sec=this.lzero(sec);
+        this.setState(()=>{
+            return{
+                minutes:min,
+                seconds:sec
+            }
+        });
     }
     stopt=()=>
     {
         clearInterval(this.TimerId);
     }
+    lzero=((val)=>{
+        if(val< 10) {
+            return '0' + val;
+        } else {
+            return val+'';
+        }
+    })
 render()
 {
         return(
